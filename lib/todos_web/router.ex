@@ -7,5 +7,9 @@ defmodule TodosWeb.Router do
 
   scope "/api", TodosWeb do
     pipe_through :api
+
+    scope "/v1", V1 do
+      resources "/tasks", TaskController, except: [:new, :edit]
+    end
   end
 end
