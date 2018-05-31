@@ -4,8 +4,8 @@ defmodule TodosWeb.UserControllerTest do
   alias Todos.Users
   alias Todos.Users.User
 
-  @create_attrs %{birthdate: "2010-04-17 14:00:00.000000Z", first_name: "some first_name", is_admin: true, last_name: "some last_name"}
-  @update_attrs %{birthdate: "2011-05-18 15:01:01.000000Z", first_name: "some updated first_name", is_admin: false, last_name: "some updated last_name"}
+  @create_attrs %{birthdate: "2010-04-17T14:00:00.000000Z", first_name: "some first_name", is_admin: true, last_name: "some last_name"}
+  @update_attrs %{birthdate: "2011-05-18T15:01:01.000000Z", first_name: "some updated first_name", is_admin: false, last_name: "some updated last_name"}
   @invalid_attrs %{birthdate: nil, first_name: nil, is_admin: nil, last_name: nil}
 
   def fixture(:user) do
@@ -20,22 +20,23 @@ defmodule TodosWeb.UserControllerTest do
   describe "index" do
     test "lists all users", %{conn: conn} do
       conn = get conn, user_path(conn, :index)
-      assert json_response(conn, 200)["data"] == []
+      assert json_response(conn, 200) == []
     end
   end
 
   describe "create user" do
     test "renders user when data is valid", %{conn: conn} do
       conn = post conn, user_path(conn, :create), user: @create_attrs
-      assert %{"id" => id} = json_response(conn, 201)["data"]
+      assert %{"id" => id} = json_response(conn, 201)
 
       conn = get conn, user_path(conn, :show, id)
-      assert json_response(conn, 200)["data"] == %{
+      assert json_response(conn, 200) == %{
         "id" => id,
-        "birthdate" => "2010-04-17 14:00:00.000000Z",
+        "birthdate" => "2010-04-17T14:00:00.000000Z",
         "first_name" => "some first_name",
         "is_admin" => true,
-        "last_name" => "some last_name"}
+        "last_name" => "some last_name",
+        "tasks" => []}
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
@@ -49,15 +50,16 @@ defmodule TodosWeb.UserControllerTest do
 
     test "renders user when data is valid", %{conn: conn, user: %User{id: id} = user} do
       conn = put conn, user_path(conn, :update, user), user: @update_attrs
-      assert %{"id" => ^id} = json_response(conn, 200)["data"]
+      assert %{"id" => ^id} = json_response(conn, 200)
 
       conn = get conn, user_path(conn, :show, id)
-      assert json_response(conn, 200)["data"] == %{
+      assert json_response(conn, 200) == %{
         "id" => id,
-        "birthdate" => "2011-05-18 15:01:01.000000Z",
+        "birthdate" => "2011-05-18T15:01:01.000000Z",
         "first_name" => "some updated first_name",
         "is_admin" => false,
-        "last_name" => "some updated last_name"}
+        "last_name" => "some updated last_name",
+        "tasks" => []}
     end
 
     test "renders errors when data is invalid", %{conn: conn, user: user} do

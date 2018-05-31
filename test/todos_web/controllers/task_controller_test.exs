@@ -35,7 +35,8 @@ defmodule TodosWeb.TaskControllerTest do
         "description" => "some description",
         "due_date" => "2010-04-17T14:00:00.000000Z",
         "is_done" => true,
-        "title" => "some title"}
+        "title" => "some title",
+        "owner_id" => nil}
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
@@ -57,7 +58,8 @@ defmodule TodosWeb.TaskControllerTest do
         "description" => "some updated description",
         "due_date" => "2011-05-18T15:01:01.000000Z",
         "is_done" => false,
-        "title" => "some updated title"}
+        "title" => "some updated title",
+        "owner_id" => nil}
     end
 
     test "renders errors when data is invalid", %{conn: conn, task: task} do
