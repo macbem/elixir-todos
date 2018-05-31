@@ -18,7 +18,7 @@ defmodule Todos.Users do
 
   """
   def list_users do
-    Repo.all(User) |> Repo.preload(:tasks) |> IO.inspect
+    Repo.all(User) |> Repo.preload(:tasks)
   end
 
   @doc """
@@ -50,9 +50,14 @@ defmodule Todos.Users do
 
   """
   def create_user(attrs \\ %{}) do
-    %User{}
-    |> User.changeset(attrs)
-    |> Repo.insert()
+    changeset = %User{} |> User.changeset(attrs)
+
+    case Repo.insert(changeset) do
+      {:ok, user} ->
+        {:ok, Repo.preload(user, :tasks)}
+
+      error -> error
+    end
   end
 
   @doc """

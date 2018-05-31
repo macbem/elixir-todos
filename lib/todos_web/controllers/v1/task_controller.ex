@@ -3,11 +3,12 @@ defmodule TodosWeb.V1.TaskController do
 
   alias Todos.Tasks
   alias Todos.Tasks.Task
+  # alias Todos.Users.User
 
   action_fallback TodosWeb.FallbackController
 
-  def index(conn, _params) do
-    tasks = Tasks.list_tasks()
+  def index(conn, %{"user_id" => user_id}) do
+    tasks = Tasks.list_tasks(user_id)
     render(conn, "index.json", tasks: tasks)
   end
 
@@ -15,12 +16,13 @@ defmodule TodosWeb.V1.TaskController do
     with {:ok, %Task{} = task} <- Tasks.create_task(task_params) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", task_path(conn, :show, task))
+      |> put_resp_header("location", user_path(conn, :show, task))
       |> render("show.json", task: task)
     end
   end
 
   def show(conn, %{"id" => id}) do
+    IO.inspect conn
     task = Tasks.get_task!(id)
     render(conn, "show.json", task: task)
   end
