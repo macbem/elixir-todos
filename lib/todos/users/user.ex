@@ -8,6 +8,7 @@ defmodule Todos.Users.User do
     field :first_name, :string
     field :is_admin, :boolean, default: false
     field :last_name, :string
+    has_many :tasks, Todos.Tasks.Task
 
     timestamps()
   end

@@ -1,4 +1,4 @@
-defmodule TodosWeb.UserController do
+defmodule TodosWeb.V1.UserController do
   use TodosWeb, :controller
 
   alias Todos.Users

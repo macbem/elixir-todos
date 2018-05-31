@@ -8,6 +8,7 @@ defmodule Todos.Tasks.Task do
     field :due_date, :utc_datetime
     field :is_done, :boolean, default: false
     field :title, :string
+    belongs_to :user, Todos.Users.User
 
     timestamps()
   end
